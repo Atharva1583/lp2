@@ -1,0 +1,59 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<pair<int, int>> primsAlgorithm(int n, vector<vector<vector<int>>> &adj)
+{  
+    priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq;
+    vector<int> vis(n, 0);
+    pq.push({0, {0, -1}});
+    int sum = 0;
+    vector<pair<int, int>> ans;
+    while (!pq.empty())
+    {
+        auto it = pq.top();
+        pq.pop();
+        int node = it.second.first;
+        int wt = it.first;
+        int parent = it.second.second;
+        if (vis[node])
+        {
+            continue;
+        }
+        vis[node] = 1;
+        sum += wt;
+        ans.push_back({parent, node});
+        for (auto it : adj[node])
+        {
+            int adjNode = it[0];
+            int edgeWeight = it[1];
+            if (!vis[adjNode])
+            {
+                pq.push({edgeWeight, {adjNode, node}});
+            }
+        }
+    }
+    cout << sum << endl;
+    return ans;
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    int e;
+    cin >> e;
+    vector<vector<vector<int>>> adj(n + 1);
+    for (int i = 0; i < e; i++)
+    {
+        int u, v, wt;
+        cin >> u >> v >> wt;
+        adj[u].push_back({v, wt});
+        adj[v].push_back({u, wt});
+    }
+    vector<pair<int, int>> ans = primsAlgorithm(n, adj);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i].first << " " << ans[i].second << endl;
+    }
+    return 0;
+}
