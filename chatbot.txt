@@ -1,0 +1,70 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef struct
+{
+    char *input;
+
+    char *response[1];
+} record;
+
+record database[] = {
+    {"What is your name?",
+     {"I'm ChatKing, an AI model"}},
+    {"Hi",
+     {"Hello"}},
+    {"How are you?",
+     {"I'm fine and what about you?"}},
+    {"I'm good",
+     {"That's great!"}},
+    {"Thanks",
+     {"Welcome"}},
+    {"Sorry",
+     {"It's ok"}},
+    {"Who developed you?",
+     {"Atharva Developed me."}}};
+
+void copy(char *array[], vector<string> &v)
+{
+    v.push_back(array[0]);
+}
+vector<string> findMatch(string input)
+{
+    vector<string> ans;
+    int n = sizeof(database) / sizeof(database[0]);
+    for (int i = 0; i < n; i++)
+    {
+        if (string(database[i].input) == input)
+        {
+            copy(database[i].response, ans);
+            break;
+        }
+    }
+    return ans;
+}
+
+int main()
+{
+    string sInput = "";
+    while (1)
+    {
+        cout << "Enter your question:" << endl;
+        getline(cin, sInput);
+        vector<string> response = findMatch(sInput);
+        if (sInput == "Bye")
+        {
+            cout << "BYE, SEE YOU NEXT TIME!" << endl;
+            break;
+        }
+        else if (response.empty())
+        {
+            cout << "I'M NOT SURE IF I  UNDERSTAND WHAT YOU  ARE TALKING ABOUT." << endl;
+        }
+        else
+        {
+            cout << response[0] << endl;
+        }
+    }
+
+    return 0;
+}
