@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfs(int node,vector<vector<int>> &adj,vector<int>&vis){
+    vis[node]=true;
+    cout<<node<<" ";
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            dfs(it,adj,vis);
+        }
+    }
+}
+
+void bfs(vector<vector<int>>&adj,vector<int>&vis,queue<int>&q){
+    if(q.empty()){
+        return;
+    }
+    int node=q.front();
+    q.pop();
+    cout<<node<<" ";
+    for(auto it:adj[node]){
+        if(!vis[it]){
+            q.push(it);
+            vis[it]=1;
+            bfs(adj,vis,q);
+        }
+    }
+}
+
+int main(){
+    int n;
+    cin>>n;
+    //n = number of vertices
+    int e;
+    cin>>e;
+    // e = number of edges
+    vector<vector<int>> adj(n+1);
+    for(int i=0;i<e;i++){
+        int u,v;
+        cin>>u>>v;
+        // u--;
+        // v--;
+        adj[u].push_back(v);
+        // adj[v].push_back(u);
+    }
+    int choice;
+    while(choice!=3){
+        cout<<"1.BFS"<<endl;
+        cout<<"2.DFS"<<endl;
+        cout<<"3.Exit"<<endl;
+        cin>>choice;
+        if(choice==1){
+            vector<int> vis(n+1,0);
+            dfs(0,adj,vis);
+            cout<<endl;
+        }else if(choice==2){
+            vector<int> vis(n+1,0);
+            queue<int> q;
+            q.push(0);
+            vis[0]=1;
+            bfs(adj,vis,q);
+            cout<<endl;
+        }else{
+            break;
+        }
+    }
+    return 0;
+}
